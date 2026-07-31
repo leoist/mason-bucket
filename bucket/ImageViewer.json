@@ -17,6 +17,18 @@
             "ImageViewer"
         ]
     ],
+    "post_install": [
+        "reg add \"HKCU\\Software\\Classes\\ImageViewer.ImageViewer\" /ve /d \"ImageViewer\" /f",
+        "reg add \"HKCU\\Software\\Classes\\ImageViewer.ImageViewer\\shell\\open\\command\" /ve /d \"\\\"$dir\\ImageViewer.exe\\\" \\\"%1\\\"\" /f",
+        "reg add \"HKCU\\Software\\Classes\\ImageViewer.ImageViewer\\DefaultIcon\" /ve /d \"\\\"$dir\\ImageViewer.exe\\\",1\" /f",
+        "foreach ($e in @('.jpg','.jpeg','.png','.bmp','.gif','.webp','.tiff','.tif','.ico','.heif','.heic','.avif','.cr2','.cr3','.nef','.arw','.dng','.orf','.rw2','.pef','.raf','.3fr','.kdc','.mrw','.nrw','.raw','.rwl','.srw','.x3f','.erf','.mef','.mos','.iiq')) { reg add \"HKCU\\Software\\Classes\\$e\" /ve /d \"ImageViewer.ImageViewer\" /f }",
+        "assoc .dummy >nul 2>&1"
+    ],
+    "post_uninstall": [
+        "foreach ($e in @('.jpg','.jpeg','.png','.bmp','.gif','.webp','.tiff','.tif','.ico','.heif','.heic','.avif','.cr2','.cr3','.nef','.arw','.dng','.orf','.rw2','.pef','.raf','.3fr','.kdc','.mrw','.nrw','.raw','.rwl','.srw','.x3f','.erf','.mef','.mos','.iiq')) { reg delete \"HKCU\\Software\\Classes\\$e\" /f >nul 2>&1 }",
+        "reg delete \"HKCU\\Software\\Classes\\ImageViewer.ImageViewer\" /f >nul 2>&1",
+        "assoc .dummy >nul 2>&1"
+    ],
     "checkver": "github",
     "autoupdate": {
         "architecture": {
