@@ -1,0 +1,54 @@
+name: Schedule
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  checkver:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check versions
+        shell: pwsh
+        run: |
+          $changed = $false
+          Get-ChildItem bucket/*.json | ForEach-Object {
+            $m = $_
+            $json = Get-Content $m.FullName -Raw | ConvertFrom-Json
+            if ($json.checkver -ne "github") { return }
+            $repo = ($json.homepage -replace 'https://github.com/', '')
+            try {
+              $rel = Invoke-RestMethod "https://api.github.com/repos/$repo/releases/latest"
+              $latest = $rel.tag_name -replace '^v'
+              if ($latest -and $latest -ne $json.version) {
+                Write-Host "$($m.BaseName): $($json.version) -> $latest"
+                $dlUrl = $json.autoupdate.architecture.'64bit'.url -replace '\$version', $latest
+                $zip = Invoke-WebRequest $dlUrl -UseBasicParsing
+                $hash = (Get-FileHash -InputStream $zip.Content -Algorithm SHA256).Hash.ToLower()
+                $newJson = $json.PSObject.Copy()
+                $newJson.version = $latest
+                $newJson.architecture.'64bit'.url = $dlUrl
+                $newJson.architecture.'64bit'.hash = $hash
+                $newJson | ConvertTo-Json -Depth 10 | Set-Content $m.FullName
+                $changed = $true
+              }
+            } catch {
+              Write-Warning "$($m.BaseName): $_"
+            }
+          }
+          if (-not $changed) { Write-Host "All up to date." }
+
+      - name: Create PR
+        if: ${{ env.CHANGED == '' }}
+        run: echo "No changes needed"
+
+      - uses: peter-evans/create-pull-request@v7
+        if: success()
+        with:
+          commit-message: "chore: update manifests"
+          title: "chore: auto-update manifests"
+          branch: auto-update
+          delete-branch: true
