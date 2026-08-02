@@ -1,12 +1,12 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.0",
     "description": "Image viewer for Windows with HEIC/AVIF/RAW support",
     "homepage": "https://github.com/leoist/ImageViewer",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/leoist/ImageViewer/releases/download/v1.0.2/ImageViewer.zip",
-            "hash": "d11c91f9e43e4c5c259afb743e32fb4718e65cdaa69a8fe7835b5c930ff5fbe8"
+            "url": "https://github.com/leoist/ImageViewer/releases/download/v1.0.0/ImageViewer.zip",
+            "hash": "eda12445d6d7f1667d92a793c53278172bb739ec9ab09b5043104eda0702af6b"
         }
     },
     "bin": "ImageViewer.exe",
