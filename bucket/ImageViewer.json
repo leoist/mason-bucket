@@ -6,7 +6,7 @@
     "architecture": {
         "64bit": {
             "url": "https://github.com/leoist/ImageViewer/releases/download/v1.0.0/ImageViewer.zip",
-            "hash": "eda12445d6d7f1667d92a793c53278172bb739ec9ab09b5043104eda0702af6b"
+            "hash": "b6325c31f974796eedd1027564fa4186e642c6b645c14d1f41d97954e07cc876"
         }
     },
     "bin": "ImageViewer.exe",
