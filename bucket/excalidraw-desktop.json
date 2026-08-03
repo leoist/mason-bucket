@@ -1,0 +1,27 @@
+{
+    "version": "1.1.0",
+    "description": "Excalidraw Desktop - offline whiteboard/sketching with Mermaid diagram support",
+    "homepage": "https://github.com/fernandopicardi/excalidraw-desktop",
+    "license": "MIT",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/fernandopicardi/excalidraw-desktop/releases/download/v1.1.0/Excalidraw.Desktop.1.0.0.exe",
+            "hash": "fe24adfd0d6247cd6fc08185f82515e9062cd00117e0d2e103486482b6acf0a9"
+        }
+    },
+    "bin": "Excalidraw.Desktop.1.0.0.exe",
+    "shortcuts": [
+        [
+            "Excalidraw.Desktop.1.0.0.exe",
+            "Excalidraw Desktop"
+        ]
+    ],
+    "checkver": "github",
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/fernandopicardi/excalidraw-desktop/releases/download/v$version/Excalidraw.Desktop.$version.exe"
+            }
+        }
+    }
+}
